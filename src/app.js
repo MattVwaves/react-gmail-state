@@ -9,9 +9,33 @@ function App() {
   console.log(initialEmails)
   const [emails, setEmails] = useState(initialEmails)
 
-const markAsRead = (event)=>{
-  console.log(initialEmails)
-  console.log(event.target.value)
+const toggleRead = (email)=>{
+  console.log(email)
+  const read = emails.map((storedEmail)=>{
+    if (storedEmail === email){
+      const emailCopy = {...email, read: !email.read}
+      return emailCopy
+    }
+    else {
+      return storedEmail
+    }
+    
+  })
+  setEmails(read)
+}
+const toggleStarred = (email)=>{
+  console.log(email)
+  const read = emails.map((storedEmail)=>{
+    if (storedEmail === email){
+      const emailCopy = {...email, starred: !email.starred}
+      return emailCopy
+    }
+    else {
+      return storedEmail
+    }
+    
+  })
+  setEmails(read)
 }
 
   return (
@@ -47,15 +71,16 @@ const markAsRead = (event)=>{
       </nav>
       <main className="emails">{
         emails.map((email)=>{
-          return <li key={email.id}className="email">
+          return <li key={email.id} className={email.read ? 'email read': 'email unread'}>
           <div  className="select">
           <input
-          onChange={markAsRead}
+            onChange={() => toggleRead(email)}
             className="select-checkbox"
             type="checkbox"/>
           </div>
           <div className="star">
           <input
+            onChange={() => toggleStarred(email)}
             className="star-checkbox"
             type="checkbox"
           />
